@@ -41,3 +41,5 @@ general quantifier-free formulae built on inequations of the form above.
 This is specialized in zgraph.v to the case of Z.
 
 Keywords: graphs, cycles, paths, constraints, inequalities, reflection
+Category: Computer Science/Decision Procedures and Certified Algorithms/Decision procedures
+Category: Miscellaneous/Extracted Programs/Combinatorics
