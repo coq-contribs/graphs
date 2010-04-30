@@ -43,3 +43,4 @@ This is specialized in zgraph.v to the case of Z.
 Keywords: graphs, graph theory, cycle detection, paths, constraints, inequalities, reflection
 Category: Computer Science/Decision Procedures and Certified Algorithms/Decision procedures
 Category: Miscellaneous/Extracted Programs/Combinatorics
+Require: IntMap
