@@ -2,6 +2,8 @@
 -R ../../Cachan/IntMap IntMap
 cgraph.v 
 zcgraph.v 
+main.ml
+checker.ml
 -custom "$(COQBIN)coqtop $(COQLIBS) $(COQFLAGS) -silent -batch -load-vernac-source extract.v" zcgraph.vo checker.ml
 -custom "$(CAMLOPTLINK) -o checker unix.cmxa checker.mli checker.ml $(PP) main.ml" checker.ml checker
 -custom
