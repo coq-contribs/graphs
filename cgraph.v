@@ -423,7 +423,6 @@ Lemma Ddle_antisym :
  Ddle dd dd' = true -> Ddle dd' dd = true -> dd = dd'.
   Proof.
     intros dd dd'. case dd. Focus 2. case dd'. Focus 2. trivial.
-    Focus 2.
     intros. discriminate H.
     case dd'. Focus 2. intros. discriminate H0.
     intros. rewrite (Dle_antisym _ _ H0 H). reflexivity.
@@ -462,7 +461,6 @@ Lemma Ddmin_le_3 :
   Proof.
     intros dd dd' dd''. case dd'. Focus 2. case dd; trivial.
     intro d'. case dd. Focus 2. case dd''. Focus 2. intro. discriminate H.
-    Focus 2.
     intros d'' H. discriminate H.
     intro d. case dd''. Focus 2. trivial.
     exact (Dmin_le_3 d d').
@@ -480,7 +478,6 @@ Lemma Ddmin_le_distr_l :
  Ddle (Ddmin dd dd') dd'' = Ddle dd dd'' || Ddle dd' dd''.
   Proof.
     simple induction dd. Focus 2. simple induction dd'. Focus 2. simple induction dd''; trivial.
-    Focus 2.
     intro d. simple induction dd''; trivial.
     intro d. simple induction dd'. Focus 2. simple induction dd''; trivial.
     simpl in |- *. intro d'. rewrite orb_b_false. reflexivity.
@@ -509,7 +506,7 @@ Lemma Ddmin_plus_l :
  Ddplus (Ddmin dd dd') d'' = Ddmin (Ddplus dd d'') (Ddplus dd' d'').
   Proof.
     simple induction dd. Focus 2. simple induction dd'. Focus 2. trivial.
-    Focus 2. trivial.
+    trivial.
     intro d. simple induction dd'. Focus 2. trivial.
     intros d' d''. simpl in |- *. rewrite Dmin_plus_l. reflexivity.
   Qed.
@@ -520,7 +517,6 @@ Lemma Ddle_plus_mono :
  Dle d d' = true -> Ddle (Ddplus dd d) (Ddplus dd' d') = true.
   Proof.
     simple induction dd. Focus 2. simple induction dd'. Focus 2. intros. trivial.
-    Focus 2.
     simpl in |- *. intros. assumption.
     intro d0. simple induction dd'. Focus 2. trivial.
     simpl in |- *. exact (Dle_plus_mono d0).
@@ -531,7 +527,7 @@ Lemma Ddplus_reg_r :
  Ddle (Ddplus dd d'') (Ddplus dd' d'') = true -> Ddle dd dd' = true.
   Proof.
     simple induction dd. Focus 2. simple induction dd'. Focus 2. trivial.
-    Focus 2. simpl in |- *. trivial.
+    simpl in |- *. trivial.
     intro d. simple induction dd'. Focus 2. trivial.
     intros d' d'' H. exact (Dplus_reg_r d d' d'' H).
   Qed.
