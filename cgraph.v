@@ -29,6 +29,8 @@ Require Import Sumbool.
 Require Import List.
 Require Import Wf_nat.
 
+Unset Standard Proposition Elimination Names.
+
 Section ConstraintGraphs.
 
 (*s Axiomatisation of the domain of interpretation [D] *)
