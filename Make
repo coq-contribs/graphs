@@ -1,5 +1,4 @@
 -R . Graphs
--R ../../Cachan/IntMap IntMap
 cgraph.v 
 zcgraph.v 
 -custom "$(COQBIN)coqtop $(COQLIBS) $(COQFLAGS) -silent -batch -load-vernac-source extract.v" zcgraph.vo checker.ml
@@ -9,5 +8,3 @@ zcgraph.v
 	echo 'x<y -> y<z -> x<z' |  ./checker
 	@echo '************** End of test ****************'"
 checker test
-
-
