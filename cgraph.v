@@ -21,7 +21,7 @@
 Require Import NArith.
 Require Import Ndigits.
 Require Import Ndec.
-Require Import Allmaps.
+From IntMap Require Import Allmaps.
 Require Import Arith.
 Require Import ZArith.
 Require Import Bool.

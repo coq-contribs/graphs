@@ -20,7 +20,7 @@
 Require Import cgraph.
 Require Import ZArith.
 Require Import NArith.
-Require Import Map.
+From IntMap Require Import Map.
 
 Inductive ZCGForm : Set :=
   | ZCGle : ad -> ad -> ZCGForm (* x<=y *)

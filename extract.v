@@ -15,7 +15,7 @@
 
 
 Require Import ZArith.
-Require Import Map.
+From IntMap Require Import Map.
 Require Import zcgraph.
 
 Axiom int : Set.
