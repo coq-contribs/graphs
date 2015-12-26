@@ -2,7 +2,7 @@
 cgraph.v
 zcgraph.v
 -extra checker.ml zcgraph.vo "$(COQBIN)coqtop $(COQLIBS) $(COQFLAGS) -silent -batch -load-vernac-source extract.v"
--extra checker checker.ml "$(CAMLOPTLINK) -o checker unix.cmxa checker.mli checker.ml $(PP) main.ml"
+-extra checker checker.ml "$(CAMLOPTLINK) -o checker unix.cmxa checker.ml $(PP) main.ml"
 -extra test checker
         "@echo '****** test: checking transitivity *******'
 	echo 'x<y -> y<z -> x<z' |  ./checker
