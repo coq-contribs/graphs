@@ -51,9 +51,11 @@ vo_to_obj = $(addsuffix .o,\
 
 OCAMLLIBS?=
 COQLIBS?=\
-  -R "." Graphs
+  -R "." Graphs\
+  -R "int-map" IntMap
 COQDOCLIBS?=\
-  -R "." Graphs
+  -R "." Graphs\
+  -R "int-map" IntMap
 
 ##########################
 #                        #
@@ -134,8 +136,8 @@ endif
 #                    #
 ######################
 
-VFILES:=zcgraph.v\
-  cgraph.v
+VFILES:=cgraph.v\
+  zcgraph.v
 
 ifneq ($(filter-out archclean clean cleanall printenv,$(MAKECMDGOALS)),)
 -include $(addsuffix .d,$(VFILES))
@@ -168,9 +170,9 @@ endif
 #                                     #
 #######################################
 
-all: $(VOFILES) $(CMOFILES) $(if $(HASNATDYNLINK_OR_EMPTY),$(CMXSFILES)) test\
+all: $(VOFILES) $(CMOFILES) $(if $(HASNATDYNLINK_OR_EMPTY),$(CMXSFILES)) checker.ml\
   checker\
-  checker.ml
+  test
 
 quick: $(VOFILES:.vo=.vio)
 
@@ -216,16 +218,16 @@ beautify: $(VFILES:=.beautified)
 #                 #
 ###################
 
-test: checker
-	@echo '****** test: checking transitivity *******'
-	echo 'x<y -> y<z -> x<z' |  ./checker
-	@echo '************** End of test ****************'
+checker.ml: zcgraph.vo
+	$(COQBIN)coqtop $(COQLIBS) $(COQFLAGS) -silent -batch -load-vernac-source extract.v
 
 checker: checker.ml
 	$(CAMLOPTLINK) -o checker unix.cmxa checker.ml $(PP) main.ml
 
-checker.ml: zcgraph.vo
-	$(COQBIN)coqtop $(COQLIBS) $(COQFLAGS) -silent -batch -load-vernac-source extract.v
+test: checker
+	@echo '****** test: checking transitivity *******'
+	echo 'x<y -> y<z -> x<z' |  ./checker
+	@echo '************** End of test ****************'
 
 ####################
 #                  #
@@ -249,17 +251,17 @@ install:
 	done
 
 install-doc:
-	install -d "$(DSTROOT)"$(COQDOCINSTALL)/Graphs/html
+	install -d "$(DSTROOT)"$(COQDOCINSTALL)/$(INSTALLDEFAULTROOT)/html
 	for i in html/*; do \
-	 install -m 0644 $$i "$(DSTROOT)"$(COQDOCINSTALL)/Graphs/$$i;\
+	 install -m 0644 $$i "$(DSTROOT)"$(COQDOCINSTALL)/$(INSTALLDEFAULTROOT)/$$i;\
 	done
 
 uninstall_me.sh: Makefile
 	echo '#!/bin/sh' > $@
 	printf 'cd "$${DSTROOT}"$(COQLIBINSTALL)/Graphs && rm -f $(VOFILES) $(VFILES) $(GLOBFILES) $(NATIVEFILES) $(CMOFILES) $(CMIFILES) $(CMAFILES) && find . -type d -and -empty -delete\ncd "$${DSTROOT}"$(COQLIBINSTALL) && find "Graphs" -maxdepth 0 -and -empty -exec rmdir -p \{\} \;\n' >> "$@"
-	printf 'cd "$${DSTROOT}"$(COQDOCINSTALL)/Graphs \\\n' >> "$@"
+	printf 'cd "$${DSTROOT}"$(COQDOCINSTALL)/$(INSTALLDEFAULTROOT) \\\n' >> "$@"
 	printf '&& rm -f $(shell find "html" -maxdepth 1 -and -type f -print)\n' >> "$@"
-	printf 'cd "$${DSTROOT}"$(COQDOCINSTALL) && find Graphs/html -maxdepth 0 -and -empty -exec rmdir -p \{\} \;\n' >> "$@"
+	printf 'cd "$${DSTROOT}"$(COQDOCINSTALL) && find $(INSTALLDEFAULTROOT)/html -maxdepth 0 -and -empty -exec rmdir -p \{\} \;\n' >> "$@"
 	chmod +x $@
 
 uninstall: uninstall_me.sh
@@ -274,9 +276,9 @@ clean::
 	rm -f $(VOFILES) $(VOFILES:.vo=.vio) $(GFILES) $(VFILES:.v=.v.d) $(VFILES:=.beautified) $(VFILES:=.old)
 	rm -f all.ps all-gal.ps all.pdf all-gal.pdf all.glob $(VFILES:.v=.glob) $(VFILES:.v=.tex) $(VFILES:.v=.g.tex) all-mli.tex
 	- rm -rf html mlihtml uninstall_me.sh
-	- rm -rf test
-	- rm -rf checker
 	- rm -rf checker.ml
+	- rm -rf checker
+	- rm -rf test
 
 cleanall:: clean
 	rm -f $(patsubst %.v,.%.aux,$(VFILES))

@@ -1,4 +1,4 @@
--R . Graphs
+-R . Graphs -R ./int-map IntMap
 cgraph.v
 zcgraph.v
 -extra checker.ml zcgraph.vo "$(COQBIN)coqtop $(COQLIBS) $(COQFLAGS) -silent -batch -load-vernac-source extract.v"
