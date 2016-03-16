@@ -175,13 +175,6 @@ all: $(VOFILES) $(CMOFILES) $(if $(HASNATDYNLINK_OR_EMPTY),$(CMXSFILES)) checker
   checker\
   test
 
-mlihtml: $(MLIFILES:.mli=.cmi)
-	 mkdir $@ || rm -rf $@/*
-	$(OCAMLFIND) ocamldoc -html -rectypes -d $@ -m A $(ZDEBUG) $(ZFLAGS) $(^:.cmi=.mli)
-
-all-mli.tex: $(MLIFILES:.mli=.cmi)
-	$(OCAMLFIND) ocamldoc -latex -rectypes -o $@ -m A $(ZDEBUG) $(ZFLAGS) $(^:.cmi=.mli)
-
 quick: $(VOFILES:.vo=.vio)
 
 vio2vo:
@@ -229,7 +222,7 @@ beautify: $(VFILES:=.beautified)
 checker.ml: zcgraph.vo
 	$(COQBIN)coqtop $(COQLIBS) $(COQFLAGS) -silent -batch -load-vernac-source extract.v
 
-checker.cmi: checker.mli
+checker.cmi: checker.ml
 	$(CAMLOPTLINK) -o checker.cmi checker.mli
 
 checker: checker.ml
@@ -316,12 +309,6 @@ Makefile: Make
 # Implicit rules. #
 #                 #
 ###################
-
-$(MLIFILES:.mli=.cmi): %.cmi: %.mli
-	$(CAMLC) $(ZDEBUG) $(ZFLAGS) $<
-
-$(addsuffix .d,$(MLIFILES)): %.mli.d: %.mli
-	$(OCAMLFIND) ocamldep -slash $(OCAMLLIBS) "$<" > "$@" || ( RV=$$?; rm -f "$@"; exit $${RV} )
 
 $(MLFILES:.ml=.cmo): %.cmo: %.ml
 	$(CAMLC) $(ZDEBUG) $(ZFLAGS) $<
