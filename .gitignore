@@ -1,8 +1,0 @@
-*.vo
-*.v.d
-.*.aux
-*.glob
-.coq-native
-checker*
-main.cm*
-main.o
