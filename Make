@@ -1,5 +1,4 @@
 -R . Graphs
--R ./int-map IntMap
 
 cgraph.v
 zcgraph.v
