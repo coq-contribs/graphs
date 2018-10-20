@@ -17,6 +17,7 @@
 Require Import ZArith.
 From IntMap Require Import Map.
 Require Import zcgraph.
+Require Extraction.
 
 Axiom int : Set.
 Axiom i2p : int -> positive.
