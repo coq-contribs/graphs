@@ -1,0 +1,21 @@
+all: test
+
+checker.ml: zcgraph.vo
+	$(COQBIN)coqtop $(COQLIBS) $(COQFLAGS) -silent -batch -load-vernac-source extract.v
+
+checker.cmi: checker.ml
+	ocamlc -c -o checker.cmi checker.mli
+
+checker.cmo: checker.ml checker.cmi
+	ocamlc -c -pp 'camlp5o pr_o.cmo' $<
+
+main.cmo: main.ml checker.cmi
+	ocamlc -c -pp 'camlp5o pr_o.cmo' $<
+
+checker: checker.cmo main.cmo
+	ocamlc -o checker unix.cma checker.cmo main.cmo
+
+test: checker
+	@echo '****** test: checking transitivity *******'
+	echo 'x<y -> y<z -> x<z' |  ./checker
+	@echo '************** End of test ****************'
